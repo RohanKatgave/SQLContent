@@ -1,0 +1,50 @@
+1. /*First, use SELECT * from both tables and use your knowledge of queries and aggregate functions to get to know the data:*/
+-> SELECT * FROM users LIMIT 20;
+   SELECT * FROM progress LIMIT 20;
+
+2. /*What are the Top 25 schools (.edu domains)?*/
+-> SELECT email_domain, COUNT(email_domain)
+   FROM users
+   WHERE email_domain LIKE '%.edu'
+   GROUP BY 1
+   ORDER BY 2 DESC
+   LIMIT 25;
+
+3. /*How many .edu learners are located in New York?*/
+-> SELECT email_domain, city, COUNT(city)
+   FROM users
+   WHERE email_domain LIKE '%.edu'
+   AND city LIKE 'New York'
+   GROUP BY 2
+   ORDER BY 3 DESC
+   LIMIT 25;
+
+4. /*How many of these Codecademy learners are using the mobile app?*/ 
+-> SELECT mobile_app, COUNT(mobile_app)
+   FROM users
+   GROUP BY 1;
+
+5. /*Do different schools (.edu domains) prefer different courses?*/
+->  SELECT sign_up_at,
+    strftime('%S', sign_up_at)
+    FROM users
+    GROUP BY 1
+    LIMIT 20;
+
+6./*What courses are the New Yorkers students taking?*/
+-> SELECT *
+   FROM users
+   INNER JOIN progress
+   ON users.user_id = progress.user_id
+   WHERE city LIKE 'New Yorkers'
+   GROUP BY email_domain
+   LIMIT 100;
+
+7./*What courses are the Chicago students taking?*/
+-> SELECT *
+   FROM users
+   INNER JOIN progress
+   ON users.user_id = progress.user_id
+   WHERE city LIKE 'Chicago'
+   GROUP BY email_domain
+   LIMIT 100;
